@@ -64,7 +64,7 @@ Song For You는 AI 음악 매니저와의 대화를 통해 사용자의 취향�
 Figma 디자인 링크 : https://www.figma.com/design/3lhER7aj77kC7eV0T8nqAH/Song-For-You--Disgn-?node-id=0-1&p=f&t=adWGPqk7ZNVL4Zs5-0
 
 ### 프로토타입 실행
-Vercel 배포 링크 : v0-song-for-you.vercel.app
+Vercel 배포 링크 : https://v0-song-for-you.vercel.app
 
 ### 설치 및 실행
 레포지토리 클론:git clone https://github.com/SongForYou-AIMusicManager/SongForYou-UserWeb.git
