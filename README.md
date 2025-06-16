@@ -1,10 +1,11 @@
-Song For You - AI 음악 매니저와 함께하는 오늘의 나만의 노래 찾기
-서비스 소개
-Song For You는 AI 음악 매니저와의 대화를 통해 사용자의 취향과 감정에 맞는 음악을 추천해주는 서비스입니다. Spotify API와 GPT API를 활용하여 개인화된 음악 추천과 AI 평가 및 공유 기능을 제공합니다.
-구현 방법
+## Song For You - AI 음악 매니저와 함께하는 오늘의 나만의 노래 찾기  
+### 서비스 소개    
+Song For You는 AI 음악 매니저와의 대화를 통해 사용자의 취향과 감정에 맞는 음악을 추천해주는 서비스입니다. Spotify API와 GPT API를 활용하여 개인화된 음악 추천과 AI 평가 및 공유 기능을 제공합니다.   
+
+## 구현 방법   
 
 ## 깃모지
-> 가독성 높은 Commit을 기록한다.  
+> 가독성 높은 Commit을 기록한다.    
 
 | 아이콘 | 타이틀 | 설명 | 원문 |
 | --- | --- | --- | --- |
@@ -43,76 +44,33 @@ Song For You는 AI 음악 매니저와의 대화를 통해 사용자의 취향�
 | 🙈 | [.gitignore] | .gitignore 추가/수정 | Add or update a .gitignore file. |
 
 
-프로토타입: V0 by Vercel로 초기 프로토타입 구현.
-성능 개선: Cursor를 통해 프론트엔드 성능 최적화 및 백엔드 연동.
-배포: Vercel 플랫폼을 통해 배포.
+* 프로토타입: V0 by Vercel로 초기 프로토타입 구현.
+* 성능 개선: Cursor를 통해 프론트엔드 성능 최적화 및 백엔드 연동.
+* 배포: Vercel 플랫폼을 통해 배포.
 
-1차 MVP 기능
+## 1차 MVP 기능
 
-회원가입 및 로그인: 사용자 계정 생성 및 인증.
-AI 음악 메니저와의 채팅: 사용자와 AI 간 대화로 음악 취향 파악.
-음악 추천: Spotify API와 GPT API를 활용한 개인화된 음악 추천.
-AI 평가 및 공유: 추천된 음악에 대한 AI 평가 및 공유 기능.
-마이페이지:
-개인 정보 조회/수정.
-모든 채팅 리스트 조회.
-즐겨찾기 채팅 리스트 조회.
-개발자에게 요청 사항 작성.
+* 회원가입 및 로그인: 사용자 계정 생성 및 인증.
+* AI 음악 메니저와의 채팅: 사용자와 AI 간 대화로 음악 취향 파악.
+* 음악 추천: Spotify API와 GPT API를 활용한 개인화된 음악 추천.
+* AI 평가 및 공유: 추천된 음악에 대한 AI 평가 및 공유 기능.
+* 마이페이지:
+개인 정보 조회/수정.  
+모든 채팅 리스트 조회.  
+즐겨찾기 채팅 리스트 조회.  
+개발자에게 요청 사항 작성.  
 
+### 화면 기획서
+Figma 디자인 링크 : https://www.figma.com/design/3lhER7aj77kC7eV0T8nqAH/Song-For-You--Disgn-?node-id=0-1&p=f&t=adWGPqk7ZNVL4Zs5-0
 
+### 프로토타입 실행
+Vercel 배포 링크 : v0-song-for-you.vercel.app
 
-화면 기획서
-
-Figma 디자인 링크
-
-프로토타입 실행
-
-Vercel 배포 링크
-
-설치 및 실행
-
+### 설치 및 실행
 레포지토리 클론:git clone https://github.com/SongForYou-AIMusicManager/SongForYou-UserWeb.git
 
-
-의존성 설치:cd SongForYou-UserWeb
-npm install
-
-
-환경 변수 설정:
-.env 파일 생성 후 Spotify API 및 GPT API 키 추가.
-
-
-로컬 실행:npm run dev
-
-
-배포:
-Vercel CLI로 배포:vercel
-
-
-
-
-
-기술 스택
-
-프론트엔드: React, V0 by Vercel, Tailwind CSS
-백엔드 연동: Spotify API, GPT API
-배포: Vercel
-개발 도구: Cursor
-
-기여 방법
-
-레포지토리 포크 및 클론.
-브랜치 생성:git checkout -b feature/기능이름
-
-
-변경사항 커밋 및 푸시:git commit -m "기능 설명"
-git push origin feature/기능이름
-
-
-Pull Request 생성.
-
-문의
-
-개발자에게 요청 사항은 마이페이지의 "개발자에게 요청 사항 작성하기" 기능을 통해 전달.
-GitHub 이슈로 문의 가능.
-
+### 기술 스택
+* 프론트엔드: React, V0 by Vercel, Tailwind CSS
+* 백엔드 연동: Spotify API, GPT API
+* 배포: Vercel
+* 개발 도구: Cursor
