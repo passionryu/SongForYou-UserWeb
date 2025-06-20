@@ -32,7 +32,8 @@ export function MyPage({ onBack }: MyPageProps) {
   }
 
   const handleLogout = () => {
-    console.log("로그아웃")
+    alert("로그아웃이 정상적으로 진행되었습니다.")
+    onBack() // 챗봇 페이지로 이동
   }
 
   const handleProfileSave = (profileData: any) => {
@@ -88,7 +89,7 @@ export function MyPage({ onBack }: MyPageProps) {
       <div className="max-w-4xl mx-auto w-full px-4 md:px-6 pb-8 space-y-6">
         {/* Profile Section */}
         <Card
-          className="bg-gray-200 p-8 rounded-2xl cursor-pointer hover:shadow-md transition-shadow duration-300"
+          className="bg-gray-200 p-8 rounded-2xl cursor-pointer hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-105 transform"
           onClick={() => setShowProfileDetail(true)}
         >
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">

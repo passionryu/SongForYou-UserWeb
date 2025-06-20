@@ -9,6 +9,20 @@ import { User, Send } from "lucide-react"
 import { LoginModal } from "@/components/login-modal"
 import { MusicRecommendationPage } from "@/components/music-recommendation"
 import { MyPage } from "@/components/my-page"
+import { OnlineUsers } from "@/components/online-users"
+import { OneOnOneChat } from "@/components/one-on-one-chat"
+
+interface OnlineUser {
+  id: number
+  name: string
+  profileImage: string
+  recentSong: {
+    title: string
+    artist: string
+    url: string
+  }
+  isOnline: boolean
+}
 
 export default function ChatbotPage() {
   const [message, setMessage] = useState("")
@@ -16,6 +30,8 @@ export default function ChatbotPage() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRecommendationPage, setShowRecommendationPage] = useState(false)
   const [showMyPage, setShowMyPage] = useState(false)
+  const [showOneOnOneChat, setShowOneOnOneChat] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<OnlineUser | null>(null)
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -42,12 +58,21 @@ export default function ChatbotPage() {
     }
   }
 
+  const handleUserChatClick = (user: OnlineUser) => {
+    setSelectedUser(user)
+    setShowOneOnOneChat(true)
+  }
+
   if (showMyPage) {
     return <MyPage onBack={() => setShowMyPage(false)} />
   }
 
   if (showRecommendationPage) {
     return <MusicRecommendationPage onBack={() => setShowRecommendationPage(false)} />
+  }
+
+  if (showOneOnOneChat && selectedUser) {
+    return <OneOnOneChat user={selectedUser} onBack={() => setShowOneOnOneChat(false)} />
   }
 
   return (
@@ -74,6 +99,9 @@ export default function ChatbotPage() {
           </div>
         </header>
       </div>
+
+      {/* Online Users Section */}
+      <OnlineUsers onUserChatClick={handleUserChatClick} />
 
       {/* Chat Area */}
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 md:px-6">
