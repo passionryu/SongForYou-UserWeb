@@ -39,8 +39,18 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
       text: "안녕하세요! Song For You 개발자입니다. 궁금한 점이나 개선사항이 있으시면 언제든 말씀해주세요! 😊",
       sender: "developer",
       timestamp: "오후 2:30",
-    }
+    },
   ])
+
+  // FAQ 질문과 답변 매핑
+  const faqResponses: Record<string, string> = {
+    "Song For You는 무슨 서비스야?":
+      "Song For You는 GPT AI모델과 Spotify 서비스를 활용한 채팅 기반의 AI음악 추천 및 공유 서비스입니다.",
+    "서비스 사용법을 알려줘!":
+      '가장 먼저 보이는 채팅 페이지에서 AI 음악 매니저와 함께 자유롭게 채팅을 하고, 가장 하단에 "음악 추천"버튼을 눌러 AI음악 매니저가 추천한 5가지의 음악들을 확인합니다. 또한 다른 사용자들이 최근한 추천받은 음악을 조회할 수 있고, 그들과 1대1 채팅을 진행할 수 있습니다.',
+    "본 서비스의 개발자가 누구야?":
+      "본 서비스의 기획, 설계, 개발, 운영자는 백엔드 개발자 류성열이며, 해당 IT 서비스에 대한 모든 권한을 소유 중입니다.",
+  }
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -55,22 +65,32 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
         }),
       }
       setMessages((prev) => [...prev, newMessage])
+      const currentMessage = message.trim()
       setMessage("")
 
       // Simulate developer response
       setTimeout(() => {
-        const responses = [
-          "좋은 의견 감사합니다! 검토해보겠습니다.",
-          "해당 기능은 다음 업데이트에 반영하도록 하겠습니다.",
-          "더 자세한 내용을 알려주시면 도움이 될 것 같아요.",
-          "사용자 경험 개선을 위해 노력하고 있습니다!",
-          "버그 신고 감사합니다. 빠르게 수정하겠습니다.",
-          "새로운 아이디어네요! 팀과 논의해보겠습니다.",
-        ]
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)]
+        let responseText: string
+
+        // FAQ 질문인지 확인하고 해당 답변 제공
+        if (faqResponses[currentMessage]) {
+          responseText = faqResponses[currentMessage]
+        } else {
+          // 일반 질문에 대한 기본 응답
+          const generalResponses = [
+            "좋은 의견 감사합니다! 검토해보겠습니다.",
+            "해당 기능은 다음 업데이트에 반영하도록 하겠습니다.",
+            "더 자세한 내용을 알려주시면 도움이 될 것 같아요.",
+            "사용자 경험 개선을 위해 노력하고 있습니다!",
+            "버그 신고 감사합니다. 빠르게 수정하겠습니다.",
+            "새로운 아이디어네요! 팀과 논의해보겠습니다.",
+          ]
+          responseText = generalResponses[Math.floor(Math.random() * generalResponses.length)]
+        }
+
         const responseMessage: ChatMessage = {
           id: messages.length + 2,
-          text: randomResponse,
+          text: responseText,
           sender: "developer",
           timestamp: new Date().toLocaleTimeString("ko-KR", {
             hour: "2-digit",
