@@ -187,7 +187,7 @@ export function MyPage({ onBack }: MyPageProps) {
               </Button>
               <Button
                 onClick={handleDeveloperChat}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg"
               >
                 개발자와 채팅
               </Button>
