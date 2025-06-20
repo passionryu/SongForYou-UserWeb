@@ -28,7 +28,6 @@ interface ChatMessage {
   id: number
   text: string
   sender: "me" | "other"
-  timestamp: string
 }
 
 export function OneOnOneChatModal({ user, onClose }: OneOnOneChatModalProps) {
@@ -38,19 +37,16 @@ export function OneOnOneChatModal({ user, onClose }: OneOnOneChatModalProps) {
       id: 1,
       text: `안녕하세요! ${user.name}님과의 채팅을 시작합니다.`,
       sender: "other",
-      timestamp: "오후 2:30",
     },
     {
       id: 2,
       text: "안녕하세요! 반가워요 😊",
       sender: "me",
-      timestamp: "오후 2:31",
     },
     {
       id: 3,
       text: `최근에 ${user.recentSong.title} 추천받으셨더라구요! 어떠셨나요?`,
       sender: "other",
-      timestamp: "오후 2:32",
     },
   ])
 
@@ -60,11 +56,6 @@ export function OneOnOneChatModal({ user, onClose }: OneOnOneChatModalProps) {
         id: messages.length + 1,
         text: message,
         sender: "me",
-        timestamp: new Date().toLocaleTimeString("ko-KR", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
       }
       setMessages((prev) => [...prev, newMessage])
       setMessage("")
@@ -82,11 +73,6 @@ export function OneOnOneChatModal({ user, onClose }: OneOnOneChatModalProps) {
           id: messages.length + 2,
           text: randomResponse,
           sender: "other",
-          timestamp: new Date().toLocaleTimeString("ko-KR", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
         }
         setMessages((prev) => [...prev, responseMessage])
       }, 1000)
@@ -111,11 +97,9 @@ export function OneOnOneChatModal({ user, onClose }: OneOnOneChatModalProps) {
                 alt={user.name}
                 className="w-10 h-10 rounded-full border-2 border-green-400"
               />
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
             <div>
               <div className="font-semibold text-gray-800">{user.name}</div>
-              <div className="text-sm text-green-600">온라인</div>
             </div>
           </div>
           <Button
@@ -140,9 +124,6 @@ export function OneOnOneChatModal({ user, onClose }: OneOnOneChatModalProps) {
                     }`}
                   >
                     {msg.text}
-                  </div>
-                  <div className={`text-xs text-gray-500 mt-1 ${msg.sender === "me" ? "text-right" : "text-left"}`}>
-                    {msg.timestamp}
                   </div>
                 </div>
               </div>

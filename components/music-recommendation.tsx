@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { User, ThumbsUp, ThumbsDown, Instagram, Share2, ArrowLeft } from "lucide-react"
+import { User, ThumbsUp, ThumbsDown, Instagram, Share2, ArrowLeft, ExternalLink } from "lucide-react"
 import { LoginModal } from "@/components/login-modal"
 import { MyPage } from "@/components/my-page"
 
@@ -14,6 +14,7 @@ interface MusicRecommendation {
   thumbnail: string
   reason: string
   encouragement: string
+  youtubeUrl: string
   liked?: boolean
   disliked?: boolean
   saved?: boolean
@@ -32,6 +33,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
       title: "Spring Day",
       artist: "BTS",
       thumbnail: "https://i.scdn.co/image/ab67616d0000b273de2c90b6f7a8b9b8e0b6b6b6",
+      youtubeUrl: "https://www.youtube.com/watch?v=xEeFrLSkMm8",
       reason:
         "추천 사유 : 그리움과 희망이 공존하는 감성적인 멜로디로, 힘든 시간을 견뎌내는 당신에게 위로와 용기를 전해줍니다. 계절의 변화처럼 모든 어려움도 지나간다는 메시지를 담고 있습니다.",
       encouragement:
@@ -42,6 +44,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
       title: "Through the Night",
       artist: "IU",
       thumbnail: "https://i.scdn.co/image/ab67616d0000b273f5e9e5e5e5e5e5e5e5e5e5e5",
+      youtubeUrl: "https://www.youtube.com/watch?v=BzYnNdJhZQw",
       reason:
         "추천 사유 : 잔잔하고 따뜻한 멜로디가 마음을 편안하게 해주며, 소중한 사람을 생각하는 마음을 아름답게 표현한 곡입니다. 하루의 마무리에 듣기 좋은 힐링 음악입니다.",
       encouragement:
@@ -52,6 +55,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
       title: "Dynamite",
       artist: "BTS",
       thumbnail: "https://i.scdn.co/image/ab67616d0000b273c9b9b9b9b9b9b9b9b9b9b9b9",
+      youtubeUrl: "https://www.youtube.com/watch?v=gdZLi9oWNZg",
       reason:
         "추천 사유 : 밝고 경쾌한 리듬으로 에너지를 충전해주는 곡입니다. 힘들고 지친 일상에 활력을 불어넣어 주며, 긍정적인 마인드로 하루를 시작할 수 있게 도와줍니다.",
       encouragement:
@@ -62,6 +66,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
       title: "Hotel Del Luna",
       artist: "IU",
       thumbnail: "https://i.scdn.co/image/ab67616d0000b273a1a1a1a1a1a1a1a1a1a1a1a1",
+      youtubeUrl: "https://www.youtube.com/watch?v=v7bnOxV4jAc",
       reason:
         "추천 사유 : 몽환적이고 신비로운 분위기의 곡으로, 일상에서 벗어나 특별한 감정을 느끼고 싶을 때 완벽한 선택입니다. IU의 독특한 보컬이 매력적인 곡입니다.",
       encouragement:
@@ -72,6 +77,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
       title: "Life Goes On",
       artist: "BTS",
       thumbnail: "https://i.scdn.co/image/ab67616d0000b273b1b1b1b1b1b1b1b1b1b1b1b1",
+      youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       reason:
         "추천 사유 : 어려운 시기에도 삶은 계속된다는 메시지를 담은 위로의 곡입니다. 잔잔한 멜로디와 따뜻한 가사로 마음의 평안을 찾을 수 있습니다.",
       encouragement:
@@ -93,10 +99,18 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
 
   const handleSave = (id: number) => {
     setRecommendations((prev) => prev.map((rec) => (rec.id === id ? { ...rec, saved: !rec.saved } : rec)))
+
+    // 저장 완료 알림
+    const recommendation = recommendations.find((rec) => rec.id === id)
+    if (recommendation && !recommendation.saved) {
+      alert(`"${recommendation.title} - ${recommendation.artist}"이(가) 내 보관함에 저장되었습니다!`)
+    } else {
+      alert("보관함에서 제거되었습니다.")
+    }
   }
 
-  const handleDeveloperContact = () => {
-    console.log("개발자에게 문의")
+  const handleYoutubeOpen = (youtubeUrl: string) => {
+    window.open(youtubeUrl, "_blank")
   }
 
   const handleInstagramShare = () => {
@@ -177,7 +191,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
 
                 {/* Action Buttons */}
                 <div className="flex flex-row lg:flex-col gap-4 lg:gap-3 w-full lg:w-28">
-                  {/* 1번 묶음: 좋아요/싫어요/개발자 문의 */}
+                  {/* 1번 묶음: 좋아요/싫어요/Youtube 이동 */}
                   <div className="flex flex-col gap-3 flex-1 lg:flex-none lg:w-full">
                     {/* 좋아요/싫어요 버튼 - 정사각형, 가로 나열 */}
                     <div className="flex gap-2 lg:gap-5 justify-center lg:justify-start">
@@ -201,13 +215,14 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
                       </Button>
                     </div>
 
-                    {/* 개발자 문의 버튼 - 가로로 긴 직사각형 */}
+                    {/* Youtube 이동 버튼 - 가로로 긴 직사각형 */}
                     <Button
                       variant="outline"
-                      onClick={handleDeveloperContact}
-                      className="w-full h-12 bg-white hover:bg-gray-50 rounded-xl transition-all duration-200 hover:scale-105 text-sm font-medium text-gray-700"
+                      onClick={() => handleYoutubeOpen(rec.youtubeUrl)}
+                      className="w-full h-12 bg-white hover:bg-red-50 hover:border-red-300 rounded-xl transition-all duration-200 hover:scale-105 text-sm font-medium text-gray-700 hover:text-red-600 flex items-center justify-center gap-2"
                     >
-                      개발자에게 문의
+                      <ExternalLink className="h-4 w-4" />
+                      Youtube로 이동
                     </Button>
                   </div>
 

@@ -9,6 +9,7 @@ import { FavoriteChatListPage } from "./favorite-chat-list-page"
 import { ProfileDetailModal } from "./profile-detail-modal"
 import { DeveloperRequestModal } from "./developer-request-modal"
 import { DeveloperChat } from "./developer-chat"
+import { LoginModal } from "./login-modal"
 
 interface MyPageProps {
   onBack: () => void
@@ -28,6 +29,7 @@ export function MyPage({ onBack }: MyPageProps) {
   const [showProfileDetail, setShowProfileDetail] = useState(false)
   const [showDeveloperRequest, setShowDeveloperRequest] = useState(false)
   const [showDeveloperChat, setShowDeveloperChat] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   const handleDeveloperRequest = () => {
     setShowDeveloperRequest(true)
@@ -93,6 +95,7 @@ export function MyPage({ onBack }: MyPageProps) {
             <Button
               variant="outline"
               className="hover:bg-gray-100 hover:shadow-md transition-all duration-300 ease-in-out hover:scale-105 transform"
+              onClick={() => setShowLoginModal(true)}
             >
               Login
             </Button>
@@ -215,6 +218,7 @@ export function MyPage({ onBack }: MyPageProps) {
       {showDeveloperRequest && (
         <DeveloperRequestModal onClose={() => setShowDeveloperRequest(false)} onSubmit={handleDeveloperRequestSubmit} />
       )}
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </div>
   )
 }

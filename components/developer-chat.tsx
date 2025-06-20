@@ -28,7 +28,6 @@ interface ChatMessage {
   id: number
   text: string
   sender: "me" | "developer"
-  timestamp: string
 }
 
 export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
@@ -38,7 +37,6 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
       id: 1,
       text: "안녕하세요! Song For You 개발자입니다. 궁금한 점이나 개선사항이 있으시면 언제든 말씀해주세요! 😊",
       sender: "developer",
-      timestamp: "오후 2:30",
     },
   ])
 
@@ -58,11 +56,6 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
         id: messages.length + 1,
         text: message,
         sender: "me",
-        timestamp: new Date().toLocaleTimeString("ko-KR", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
       }
       setMessages((prev) => [...prev, newMessage])
       const currentMessage = message.trim()
@@ -92,11 +85,6 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
           id: messages.length + 2,
           text: responseText,
           sender: "developer",
-          timestamp: new Date().toLocaleTimeString("ko-KR", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
         }
         setMessages((prev) => [...prev, responseMessage])
       }, 1500)
@@ -127,11 +115,9 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
               <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center border-2 border-blue-400">
                 <Code className="h-5 w-5 text-white" />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
             <div>
               <div className="font-semibold text-gray-800">개발자</div>
-              <div className="text-sm text-green-600">온라인</div>
             </div>
           </div>
         </header>
@@ -139,7 +125,7 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
 
       {/* Chat Area */}
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 md:px-6">
-        <div className="flex-1 bg-gray-200 rounded-lg mb-4 p-4 overflow-y-auto min-h-[400px] md:min-h-[500px]">
+        <div className="flex-1 bg-gray-200 rounded-lg mb-4 p-4 overflow-y-auto min-h-[400px] max-h-[500px] md:max-h-[600px]">
           <div className="space-y-4">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}>
@@ -150,9 +136,6 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
                     }`}
                   >
                     {msg.text}
-                  </div>
-                  <div className={`text-xs text-gray-500 mt-1 ${msg.sender === "me" ? "text-right" : "text-left"}`}>
-                    {msg.timestamp}
                   </div>
                 </div>
               </div>
