@@ -78,7 +78,7 @@ export function OnlineUsers({ onUserChatClick }: OnlineUsersProps) {
       { /*<h3 className="text-sm font-medium text-gray-700 mb-2">현재 접속중인 유저들</h3>*/}
       <Card className="bg-white p-4 rounded-2xl shadow-sm">
         {/* Card 내부에서 제목과 mb-3 제거 */}
-        <div className="flex gap-4 overflow-x-auto pb-1">
+        <div className="flex gap-4 overflow-x-auto pb-0">
           {onlineUsers.map((user) => (
             <div key={user.id} className="flex-shrink-0 text-center min-w-[80px]">
               {/* Profile Image */}
