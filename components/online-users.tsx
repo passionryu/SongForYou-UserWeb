@@ -75,7 +75,7 @@ export function OnlineUsers({ onUserChatClick }: OnlineUsersProps) {
   return (
     <div className="max-w-4xl mx-auto w-full px-4 md:px-6 mb-4">
       {/* 제목을 Card 밖으로 이동 */}
-      <h3 className="text-sm font-medium text-gray-700 mb-2">현재 접속중인 유저들</h3>
+      { /*<h3 className="text-sm font-medium text-gray-700 mb-2">현재 접속중인 유저들</h3>*/}
       <Card className="bg-white p-4 rounded-2xl shadow-sm">
         {/* Card 내부에서 제목과 mb-3 제거 */}
         <div className="flex gap-4 overflow-x-auto pb-2">
