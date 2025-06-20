@@ -39,13 +39,7 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
       text: "안녕하세요! Song For You 개발자입니다. 궁금한 점이나 개선사항이 있으시면 언제든 말씀해주세요! 😊",
       sender: "developer",
       timestamp: "오후 2:30",
-    },
-    {
-      id: 2,
-      text: "서비스를 이용해주셔서 감사합니다. 어떤 도움이 필요하신가요?",
-      sender: "developer",
-      timestamp: "오후 2:31",
-    },
+    }
   ])
 
   const handleSendMessage = () => {
