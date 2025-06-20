@@ -222,7 +222,7 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
                       className="w-full h-12 bg-white hover:bg-red-50 hover:border-red-300 rounded-xl transition-all duration-200 hover:scale-105 text-sm font-medium text-gray-700 hover:text-red-600 flex items-center justify-center gap-2"
                     >
                       <ExternalLink className="h-4 w-4" />
-                      Youtube로 이동
+                      Youtube
                     </Button>
                   </div>
 
