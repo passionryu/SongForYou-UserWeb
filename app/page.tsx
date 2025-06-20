@@ -10,7 +10,7 @@ import { LoginModal } from "@/components/login-modal"
 import { MusicRecommendationPage } from "@/components/music-recommendation"
 import { MyPage } from "@/components/my-page"
 import { OnlineUsers } from "@/components/online-users"
-import { OneOnOneChat } from "@/components/one-on-one-chat"
+import { OneOnOneChatModal } from "@/components/one-on-one-chat-modal"
 
 interface OnlineUser {
   id: number
@@ -30,7 +30,7 @@ export default function ChatbotPage() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRecommendationPage, setShowRecommendationPage] = useState(false)
   const [showMyPage, setShowMyPage] = useState(false)
-  const [showOneOnOneChat, setShowOneOnOneChat] = useState(false)
+  const [showOneOnOneChatModal, setShowOneOnOneChatModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState<OnlineUser | null>(null)
 
   const handleSendMessage = () => {
@@ -60,7 +60,7 @@ export default function ChatbotPage() {
 
   const handleUserChatClick = (user: OnlineUser) => {
     setSelectedUser(user)
-    setShowOneOnOneChat(true)
+    setShowOneOnOneChatModal(true)
   }
 
   if (showMyPage) {
@@ -69,10 +69,6 @@ export default function ChatbotPage() {
 
   if (showRecommendationPage) {
     return <MusicRecommendationPage onBack={() => setShowRecommendationPage(false)} />
-  }
-
-  if (showOneOnOneChat && selectedUser) {
-    return <OneOnOneChat user={selectedUser} onBack={() => setShowOneOnOneChat(false)} />
   }
 
   return (
@@ -105,7 +101,7 @@ export default function ChatbotPage() {
 
       {/* Chat Area */}
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 md:px-6">
-        <div className="flex-1 bg-gray-200 rounded-lg mb-4 p-4 overflow-y-auto min-h-[400px] md:min-h-[500px]">
+        <div className="flex-1 bg-gray-200 rounded-lg mb-4 p-4 overflow-y-auto min-h-[400px] max-h-[500px] md:max-h-[600px]">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full text-gray-500">
               <p className="text-center">
@@ -164,7 +160,12 @@ export default function ChatbotPage() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
       {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
+      {showOneOnOneChatModal && selectedUser && (
+        <OneOnOneChatModal user={selectedUser} onClose={() => setShowOneOnOneChatModal(false)} />
+      )}
     </div>
   )
 }

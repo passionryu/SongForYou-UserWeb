@@ -95,6 +95,10 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
     }
   }
 
+  const handleQuickMessage = (quickMessage: string) => {
+    setMessage(quickMessage)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
@@ -166,26 +170,26 @@ export function DeveloperChat({ user, onBack }: DeveloperChatProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setMessage("버그를 발견했습니다.")}
+              onClick={() => handleQuickMessage("Song For You는 무슨 서비스야?")}
               className="text-xs bg-white hover:bg-gray-50"
             >
-              🐛 버그 신고
+              🎵 서비스 소개
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setMessage("새로운 기능을 제안하고 싶습니다.")}
+              onClick={() => handleQuickMessage("서비스 사용법을 알려줘!")}
               className="text-xs bg-white hover:bg-gray-50"
             >
-              💡 기능 제안
+              📖 사용법 문의
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setMessage("사용법을 알고 싶습니다.")}
+              onClick={() => handleQuickMessage("본 서비스의 개발자가 누구야?")}
               className="text-xs bg-white hover:bg-gray-50"
             >
-              ❓ 사용법 문의
+              👨‍💻 개발자 정보
             </Button>
           </div>
         </div>

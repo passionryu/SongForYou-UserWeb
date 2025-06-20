@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { User, ThumbsUp, ThumbsDown, Instagram, Share2, ArrowLeft } from "lucide-react"
+import { LoginModal } from "@/components/login-modal"
+import { MyPage } from "@/components/my-page"
 
 interface MusicRecommendation {
   id: number
@@ -22,6 +24,8 @@ interface MusicRecommendationPageProps {
 }
 
 export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps) {
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showMyPage, setShowMyPage] = useState(false)
   const [recommendations, setRecommendations] = useState<MusicRecommendation[]>([
     {
       id: 1,
@@ -103,6 +107,10 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
     console.log("링크 공유")
   }
 
+  if (showMyPage) {
+    return <MyPage onBack={() => setShowMyPage(false)} />
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -112,17 +120,18 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
             <ArrowLeft className="h-5 w-5 mr-2" />
             뒤로가기
           </Button>
-          {/* <div className="text-2xl font-bold text-black">Song For You</div> */}
           <div className="flex gap-2">
             <Button
               variant="outline"
               className="hover:bg-gray-100 hover:shadow-md transition-all duration-300 ease-in-out hover:scale-105 transform"
+              onClick={() => setShowLoginModal(true)}
             >
               Login
             </Button>
             <Button
               className="hover:bg-purple-700 hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-105 transform bg-slate-600"
               size="icon"
+              onClick={() => setShowMyPage(true)}
             >
               <User className="h-4 w-4" />
             </Button>
@@ -241,6 +250,9 @@ export function MusicRecommendationPage({ onBack }: MusicRecommendationPageProps
           ))}
         </div>
       </div>
+
+      {/* Modals */}
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </div>
   )
 }
