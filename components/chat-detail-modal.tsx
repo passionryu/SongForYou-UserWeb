@@ -227,7 +227,7 @@ export function ChatDetailModal({ chat, onClose }: ChatDetailModalProps) {
                       className="w-full h-12 rounded-xl transition-all duration-200 hover:scale-105 text-sm font-medium bg-white hover:bg-red-50 hover:border-red-300 text-gray-700 hover:text-red-600 flex items-center justify-center gap-2"
                     >
                       <Trash2 className="h-4 w-4" />
-                      채팅기록 삭제
+                      채팅 삭제
                     </Button>
                   </div>
                 </div>
