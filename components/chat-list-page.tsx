@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ArrowLeft, Search, Star, Share2, Trash2 } from "lucide-react"
-import { ChatDetailModal } from "./chat-detail-modal"
-import { DeleteConfirmationModal } from "./delete-confirmation-modal"
 
 interface ChatListPageProps {
   onBack: () => void
@@ -18,9 +16,7 @@ interface ChatItem {
   title: string
   artist: string
   reason: string
-  encouragement: string
   thumbnail: string
-  youtubeUrl: string
   isFavorite: boolean
 }
 
@@ -30,10 +26,6 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-  const [selectedChat, setSelectedChat] = useState<ChatItem | null>(null)
-  const [showChatDetail, setShowChatDetail] = useState(false)
-  const [chatToDelete, setChatToDelete] = useState<ChatItem | null>(null)
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
   const observer = useRef<IntersectionObserver | null>(null)
   const lastChatElementRef = useRef<HTMLDivElement | null>(null)
 
@@ -43,68 +35,24 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
     const startId = (pageNum - 1) * 5 + 1
     const endId = startId + 4
 
-    const musicData = [
-      {
-        title: "Spring Day",
-        artist: "BTS",
-        youtubeUrl: "https://www.youtube.com/watch?v=xEeFrLSkMm8",
-        reason: "그리움과 희망이 공존하는 감성적인 멜로디로, 힘든 시간을 견뎌내는 당신에게 위로와 용기를 전해줍니다.",
-        encouragement:
-          "추운 겨울이 지나면 따뜻한 봄이 오듯이, 지금의 어려움도 반드시 지나갈 거예요. 당신의 봄날이 곧 올 거라 믿어요!",
-      },
-      {
-        title: "Through the Night",
-        artist: "IU",
-        youtubeUrl: "https://www.youtube.com/watch?v=BzYnNdJhZQw",
-        reason:
-          "잔잔하고 따뜻한 멜로디가 마음을 편안하게 해주며, 소중한 사람을 생각하는 마음을 아름답게 표현한 곡입니다.",
-        encouragement: "오늘 하루도 수고 많으셨어요. 밤하늘의 별처럼 당신도 누군가에게 소중한 빛이 되고 있답니다.",
-      },
-      {
-        title: "Dynamite",
-        artist: "BTS",
-        youtubeUrl: "https://www.youtube.com/watch?v=gdZLi9oWNZg",
-        reason: "밝고 경쾌한 리듬으로 에너지를 충전해주는 곡입니다. 힘들고 지친 일상에 활력을 불어넣어 줍니다.",
-        encouragement:
-          "당신 안에 숨어있는 다이너마이트 같은 에너지를 발산해보세요! 오늘도 빛나는 하루 만들어가시길 응원합니다!",
-      },
-      {
-        title: "LILAC",
-        artist: "IU",
-        youtubeUrl: "https://www.youtube.com/watch?v=v7bnOxV4jAc",
-        reason: "성숙하고 세련된 멜로디로 인생의 새로운 시작을 응원하는 곡입니다.",
-        encouragement: "새로운 시작은 언제나 설레고 두렵지만, 당신이라면 충분히 해낼 수 있어요!",
-      },
-      {
-        title: "Life Goes On",
-        artist: "BTS",
-        youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        reason: "어려운 시기에도 삶은 계속된다는 메시지를 담은 위로의 곡입니다.",
-        encouragement: "힘든 시간이 와도 삶은 계속 흘러갑니다. 당신의 삶도 아름답게 계속될 거예요.",
-      },
-    ]
-
     for (let i = startId; i <= endId; i++) {
       if (i > 30) {
+        // 최대 30개 아이템으로 제한
         setHasMore(false)
         break
       }
 
-      const musicIndex = (i - 1) % musicData.length
-      const music = musicData[musicIndex]
-
       const chat: ChatItem = {
         id: i,
         date: `2025-06-${15 - (i % 15)}`,
-        title: music.title,
-        artist: music.artist,
-        reason: music.reason,
-        encouragement: music.encouragement,
+        title: "Love Song",
+        artist: "Kenny",
+        reason: "행복한 하루를 보냈을 당신에게 오늘 하루 더욱 아름다운 마무리를 선물하고싶어요. 이 노래를...",
         thumbnail: `/placeholder.svg?height=80&width=80&text=Album${i}`,
-        youtubeUrl: music.youtubeUrl,
-        isFavorite: i % 3 === 0,
+        isFavorite: i % 3 === 0, // 3의 배수 ID는 즐겨찾기 상태
       }
 
+      // 검색어가 있으면 필터링
       if (
         !query ||
         chat.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -147,7 +95,7 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
           setTimeout(() => {
             setChats((prevChats) => [...prevChats, ...generateChats(nextPage, searchQuery)])
             setLoading(false)
-          }, 500)
+          }, 500) // 로딩 시뮬레이션
 
           return nextPage
         })
@@ -158,12 +106,6 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
       observer.current.observe(lastChatElementRef.current)
     }
   }, [loading, hasMore, searchQuery])
-
-  // 채팅 클릭 핸들러
-  const handleChatClick = (chat: ChatItem) => {
-    setSelectedChat(chat)
-    setShowChatDetail(true)
-  }
 
   // 즐겨찾기 토글
   const toggleFavorite = (id: number) => {
@@ -177,25 +119,9 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
     console.log(`공유: 채팅 ID ${id}`)
   }
 
-  // 삭제 확인 모달 열기
-  const handleDeleteClick = (chat: ChatItem) => {
-    setChatToDelete(chat)
-    setShowDeleteConfirmation(true)
-  }
-
-  // 삭제 확인
-  const handleDeleteConfirm = () => {
-    if (chatToDelete) {
-      setChats((prevChats) => prevChats.filter((chat) => chat.id !== chatToDelete.id))
-      setShowDeleteConfirmation(false)
-      setChatToDelete(null)
-    }
-  }
-
-  // 삭제 취소
-  const handleDeleteCancel = () => {
-    setShowDeleteConfirmation(false)
-    setChatToDelete(null)
+  // 삭제 기능
+  const handleDelete = (id: number) => {
+    setChats((prevChats) => prevChats.filter((chat) => chat.id !== id))
   }
 
   return (
@@ -208,7 +134,7 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
             뒤로가기
           </Button>
           <div className="text-2xl font-bold text-black">모든 채팅 리스트</div>
-          <div className="w-10"></div>
+          <div className="w-10"></div> {/* 균형을 위한 빈 공간 */}
         </header>
       </div>
 
@@ -237,9 +163,8 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
         {chats.map((chat, index) => (
           <Card
             key={chat.id}
-            className="bg-white p-4 rounded-2xl hover:shadow-md transition-shadow duration-300 cursor-pointer"
+            className="bg-white p-4 rounded-2xl hover:shadow-md transition-shadow duration-300"
             ref={index === chats.length - 1 ? lastChatElementRef : null}
-            onClick={() => handleChatClick(chat)}
           >
             <div className="flex items-start gap-4">
               {/* Thumbnail */}
@@ -253,24 +178,24 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
 
               {/* Content */}
               <div className="flex-1 min-w-0">
+                {/* Title and Artist - 한 줄로 표시 */}
                 <div className="font-semibold text-gray-800 text-base md:text-lg mb-1 truncate">
                   {chat.title} - {chat.artist}
                 </div>
+
+                {/* Date - 더 작고 자연스럽게 */}
                 <div className="text-xs text-gray-500 mb-2">{chat.date}</div>
-                <div className="text-sm text-gray-600 leading-relaxed line-clamp-2 md:line-clamp-1">
-                  {chat.reason.substring(0, 100)}...
-                </div>
+
+                {/* Reason - 모바일에서 2줄까지 표시 */}
+                <div className="text-sm text-gray-600 leading-relaxed line-clamp-2 md:line-clamp-1">{chat.reason}</div>
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons - 세로 배치로 변경 */}
               <div className="flex flex-col gap-2 md:flex-row md:gap-3">
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    toggleFavorite(chat.id)
-                  }}
+                  onClick={() => toggleFavorite(chat.id)}
                   className={`rounded-full transition-all duration-200 hover:scale-110 w-8 h-8 md:w-10 md:h-10 ${
                     chat.isFavorite ? "text-yellow-500" : "text-gray-400 hover:text-yellow-500"
                   }`}
@@ -280,10 +205,7 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleShare(chat.id)
-                  }}
+                  onClick={() => handleShare(chat.id)}
                   className="rounded-full text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-110 w-8 h-8 md:w-10 md:h-10"
                 >
                   <Share2 className="h-4 w-4 md:h-5 md:w-5" />
@@ -291,10 +213,7 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleDeleteClick(chat)
-                  }}
+                  onClick={() => handleDelete(chat.id)}
                   className="rounded-full text-gray-400 hover:text-red-500 transition-all duration-200 hover:scale-110 w-8 h-8 md:w-10 md:h-10"
                 >
                   <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
@@ -326,21 +245,6 @@ export function ChatListPage({ onBack }: ChatListPageProps) {
           </div>
         )}
       </div>
-
-      {/* Chat Detail Modal */}
-      {showChatDetail && selectedChat && (
-        <ChatDetailModal chat={selectedChat} onClose={() => setShowChatDetail(false)} />
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteConfirmation && chatToDelete && (
-        <DeleteConfirmationModal
-          onConfirm={handleDeleteConfirm}
-          onCancel={handleDeleteCancel}
-          chatTitle={chatToDelete.title}
-          chatArtist={chatToDelete.artist}
-        />
-      )}
     </div>
   )
 }
