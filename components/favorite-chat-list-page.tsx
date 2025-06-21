@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ArrowLeft, Search, Star, Share2, Trash2 } from "lucide-react"
 import { ChatDetailModal } from "./chat-detail-modal"
+import { DeleteConfirmationModal } from "./delete-confirmation-modal"
 
 interface FavoriteChatListPageProps {
   onBack: () => void
@@ -31,6 +32,8 @@ export function FavoriteChatListPage({ onBack }: FavoriteChatListPageProps) {
   const [hasMore, setHasMore] = useState(true)
   const [selectedChat, setSelectedChat] = useState<ChatItem | null>(null)
   const [showChatDetail, setShowChatDetail] = useState(false)
+  const [chatToDelete, setChatToDelete] = useState<ChatItem | null>(null)
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
   const observer = useRef<IntersectionObserver | null>(null)
   const lastChatElementRef = useRef<HTMLDivElement | null>(null)
 
@@ -160,9 +163,25 @@ export function FavoriteChatListPage({ onBack }: FavoriteChatListPageProps) {
     console.log(`공유: 채팅 ID ${id}`)
   }
 
-  // 삭제 기능
-  const handleDelete = (id: number) => {
-    setChats((prevChats) => prevChats.filter((chat) => chat.id !== id))
+  // 삭제 확인 모달 열기
+  const handleDeleteClick = (chat: ChatItem) => {
+    setChatToDelete(chat)
+    setShowDeleteConfirmation(true)
+  }
+
+  // 삭제 확인
+  const handleDeleteConfirm = () => {
+    if (chatToDelete) {
+      setChats((prevChats) => prevChats.filter((chat) => chat.id !== chatToDelete.id))
+      setShowDeleteConfirmation(false)
+      setChatToDelete(null)
+    }
+  }
+
+  // 삭제 취소
+  const handleDeleteCancel = () => {
+    setShowDeleteConfirmation(false)
+    setChatToDelete(null)
   }
 
   return (
@@ -258,7 +277,7 @@ export function FavoriteChatListPage({ onBack }: FavoriteChatListPageProps) {
                   size="icon"
                   onClick={(e) => {
                     e.stopPropagation()
-                    handleDelete(chat.id)
+                    handleDeleteClick(chat)
                   }}
                   className="rounded-full text-gray-400 hover:text-red-500 transition-all duration-200 hover:scale-110 w-8 h-8 md:w-10 md:h-10"
                 >
@@ -295,6 +314,16 @@ export function FavoriteChatListPage({ onBack }: FavoriteChatListPageProps) {
       {/* Chat Detail Modal */}
       {showChatDetail && selectedChat && (
         <ChatDetailModal chat={selectedChat} onClose={() => setShowChatDetail(false)} />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirmation && chatToDelete && (
+        <DeleteConfirmationModal
+          onConfirm={handleDeleteConfirm}
+          onCancel={handleDeleteCancel}
+          chatTitle={chatToDelete.title}
+          chatArtist={chatToDelete.artist}
+        />
       )}
     </div>
   )

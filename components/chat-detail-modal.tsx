@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { X, ThumbsUp, ThumbsDown, ExternalLink, Instagram, Share2 } from "lucide-react"
+import { X, ThumbsUp, ThumbsDown, ExternalLink, Instagram, Share2, Trash2 } from "lucide-react"
 
 interface ChatItem {
   id: number
@@ -31,7 +31,6 @@ interface ChatDetailModalProps {
 export function ChatDetailModal({ chat, onClose }: ChatDetailModalProps) {
   const [liked, setLiked] = useState(false)
   const [disliked, setDisliked] = useState(false)
-  const [saved, setSaved] = useState(chat.isFavorite)
 
   // 해당 채팅의 대화 내용 (시뮬레이션)
   const [chatMessages] = useState<ChatMessage[]>([
@@ -97,13 +96,8 @@ export function ChatDetailModal({ chat, onClose }: ChatDetailModalProps) {
     setLiked(false)
   }
 
-  const handleSave = () => {
-    setSaved(!saved)
-    if (!saved) {
-      alert(`"${chat.title} - ${chat.artist}"이(가) 내 보관함에 저장되었습니다!`)
-    } else {
-      alert("보관함에서 제거되었습니다.")
-    }
+  const handleRemoveFromStorage = () => {
+    alert(`"${chat.title} - ${chat.artist}"이(가) 보관함에서 제거되었습니다.`)
   }
 
   const handleYoutubeOpen = () => {
@@ -206,7 +200,7 @@ export function ChatDetailModal({ chat, onClose }: ChatDetailModalProps) {
                     </Button>
                   </div>
 
-                  {/* 2번 묶음: 공유 버튼들/보관함 저장 */}
+                  {/* 2번 묶음: 공유 버튼들/보관함에서 제거 */}
                   <div className="flex flex-col gap-3 flex-1 lg:flex-none lg:w-full">
                     {/* 인스타그램/링크 공유 버튼 */}
                     <div className="flex gap-2 lg:gap-5 justify-center lg:justify-start">
@@ -226,17 +220,14 @@ export function ChatDetailModal({ chat, onClose }: ChatDetailModalProps) {
                       </Button>
                     </div>
 
-                    {/* 보관함 저장 버튼 */}
+                    {/* 보관함에서 제거 버튼 */}
                     <Button
                       variant="outline"
-                      onClick={handleSave}
-                      className={`w-full h-12 rounded-xl transition-all duration-200 hover:scale-105 text-sm font-medium ${
-                        saved
-                          ? "bg-yellow-100 border-yellow-300 text-yellow-700"
-                          : "bg-white hover:bg-gray-50 text-gray-700"
-                      }`}
+                      onClick={handleRemoveFromStorage}
+                      className="w-full h-12 rounded-xl transition-all duration-200 hover:scale-105 text-sm font-medium bg-white hover:bg-red-50 hover:border-red-300 text-gray-700 hover:text-red-600 flex items-center justify-center gap-2"
                     >
-                      내 보관함에 저장
+                      <Trash2 className="h-4 w-4" />
+                      보관함에서 제거
                     </Button>
                   </div>
                 </div>
