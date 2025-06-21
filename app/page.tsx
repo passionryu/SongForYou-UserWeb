@@ -81,7 +81,7 @@ export default function ChatbotPage() {
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full text-gray-500">
               <p className="text-center">
-                안녕하세요!
+                {/*안녕하세요!*/}
                 <br />
                 {/*당신에게 어울리는 음악을 찾아드릴 AI Music 매니저입니다.*/}
                 
