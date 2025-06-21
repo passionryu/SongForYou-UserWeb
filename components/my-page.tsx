@@ -8,6 +8,8 @@ import { ChatListPage } from "./chat-list-page"
 import { FavoriteChatListPage } from "./favorite-chat-list-page"
 import { ProfileDetailModal } from "./profile-detail-modal"
 import { DeveloperRequestModal } from "./developer-request-modal"
+import { DeveloperChat } from "./developer-chat"
+import { LoginModal } from "./login-modal"
 
 interface MyPageProps {
   onBack: () => void
@@ -26,13 +28,20 @@ export function MyPage({ onBack }: MyPageProps) {
   const [showFavoriteChats, setShowFavoriteChats] = useState(false)
   const [showProfileDetail, setShowProfileDetail] = useState(false)
   const [showDeveloperRequest, setShowDeveloperRequest] = useState(false)
+  const [showDeveloperChat, setShowDeveloperChat] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   const handleDeveloperRequest = () => {
     setShowDeveloperRequest(true)
   }
 
+  const handleDeveloperChat = () => {
+    setShowDeveloperChat(true)
+  }
+
   const handleLogout = () => {
-    console.log("로그아웃")
+    alert("로그아웃이 정상적으로 진행되었습니다.")
+    onBack() // 챗봇 페이지로 이동
   }
 
   const handleProfileSave = (profileData: any) => {
@@ -47,6 +56,21 @@ export function MyPage({ onBack }: MyPageProps) {
 
   const handleDeveloperRequestSubmit = (requestData: any) => {
     console.log("개발자 요구사항 제출:", requestData)
+  }
+
+  if (showDeveloperChat) {
+    const developerUser = {
+      id: 999,
+      name: "개발자",
+      profileImage: "/placeholder.svg?height=60&width=60&text=DEV",
+      recentSong: {
+        title: "Code & Coffee",
+        artist: "Developer",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+      isOnline: true,
+    }
+    return <DeveloperChat user={developerUser} onBack={() => setShowDeveloperChat(false)} />
   }
 
   if (showAllChats) {
@@ -71,6 +95,7 @@ export function MyPage({ onBack }: MyPageProps) {
             <Button
               variant="outline"
               className="hover:bg-gray-100 hover:shadow-md transition-all duration-300 ease-in-out hover:scale-105 transform"
+              onClick={() => setShowLoginModal(true)}
             >
               Login
             </Button>
@@ -88,7 +113,7 @@ export function MyPage({ onBack }: MyPageProps) {
       <div className="max-w-4xl mx-auto w-full px-4 md:px-6 pb-8 space-y-6">
         {/* Profile Section */}
         <Card
-          className="bg-gray-200 p-8 rounded-2xl cursor-pointer hover:shadow-md transition-shadow duration-300"
+          className="bg-gray-200 p-8 rounded-2xl cursor-pointer hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-105 transform"
           onClick={() => setShowProfileDetail(true)}
         >
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
@@ -156,12 +181,20 @@ export function MyPage({ onBack }: MyPageProps) {
             <Settings className="h-12 w-12 text-blue-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-800 mb-4">개발자에게 요구하는 페이지</h3>
             <p className="text-gray-600 mb-6">서비스 개선을 위한 의견이나 요청사항을 전달해주세요.</p>
-            <Button
-              onClick={handleDeveloperRequest}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg"
-            >
-              요청사항 작성하기
-            </Button>
+            <div className="flex flex-row gap-3">
+              <Button
+                onClick={handleDeveloperRequest}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg"
+              >
+                요청사항 작성하기
+              </Button>
+              <Button
+                onClick={handleDeveloperChat}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg"
+              >
+                개발자와 채팅
+              </Button>
+            </div>
           </div>
         </Card>
 
@@ -185,6 +218,7 @@ export function MyPage({ onBack }: MyPageProps) {
       {showDeveloperRequest && (
         <DeveloperRequestModal onClose={() => setShowDeveloperRequest(false)} onSubmit={handleDeveloperRequestSubmit} />
       )}
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </div>
   )
 }

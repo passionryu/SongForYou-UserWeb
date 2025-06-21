@@ -9,6 +9,20 @@ import { User, Send } from "lucide-react"
 import { LoginModal } from "@/components/login-modal"
 import { MusicRecommendationPage } from "@/components/music-recommendation"
 import { MyPage } from "@/components/my-page"
+import { OnlineUsers } from "@/components/online-users"
+import { OneOnOneChatModal } from "@/components/one-on-one-chat-modal"
+
+interface OnlineUser {
+  id: number
+  name: string
+  profileImage: string
+  recentSong: {
+    title: string
+    artist: string
+    url: string
+  }
+  isOnline: boolean
+}
 
 export default function ChatbotPage() {
   const [message, setMessage] = useState("")
@@ -16,6 +30,8 @@ export default function ChatbotPage() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRecommendationPage, setShowRecommendationPage] = useState(false)
   const [showMyPage, setShowMyPage] = useState(false)
+  const [showOneOnOneChatModal, setShowOneOnOneChatModal] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<OnlineUser | null>(null)
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -40,6 +56,11 @@ export default function ChatbotPage() {
     if (e.key === "Enter") {
       handleSendMessage()
     }
+  }
+
+  const handleUserChatClick = (user: OnlineUser) => {
+    setSelectedUser(user)
+    setShowOneOnOneChatModal(true)
   }
 
   if (showMyPage) {
@@ -75,16 +96,19 @@ export default function ChatbotPage() {
         </header>
       </div>
 
+      {/* Online Users Section */}
+      <OnlineUsers onUserChatClick={handleUserChatClick} />
+
       {/* Chat Area */}
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 md:px-6">
-        <div className="flex-1 bg-gray-200 rounded-lg mb-4 p-4 overflow-y-auto min-h-[400px] md:min-h-[500px]">
+        <div className="flex-1 bg-gray-200 rounded-lg mb-4 p-4 overflow-y-auto min-h-[400px] max-h-[500px] md:max-h-[600px]">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full text-gray-500">
               <p className="text-center">
-                {/*안녕하세요!*/}
-                
-                {/*당신에게 어울리는 음악을 찾아드릴 AI Music 매니저입니다.*/}
-                
+                {/*안녕하세요!
+                <br />
+                당신에게 어울리는 음악을 찾아드릴 AI Music 매니저입니다.
+                <br /> */}
                 AI Music 매니저와 대화를 시작해보세요!
               </p>
             </div>
@@ -136,7 +160,12 @@ export default function ChatbotPage() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
       {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
+      {showOneOnOneChatModal && selectedUser && (
+        <OneOnOneChatModal user={selectedUser} onClose={() => setShowOneOnOneChatModal(false)} />
+      )}
     </div>
   )
 }
