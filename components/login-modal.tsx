@@ -2,9 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { X, Eye, EyeOff } from "lucide-react"
-import { SignupModal } from "./signup-modal"
+import { X, Music } from "lucide-react"
 import { ProfileSetupModal } from "./profile-setup-modal"
 
 interface LoginModalProps {
@@ -12,171 +10,145 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ onClose }: LoginModalProps) {
-  const [showPassword, setShowPassword] = useState(false)
-  const [nickname, setNickname] = useState("")
-  const [password, setPassword] = useState("")
-  const [showSignupModal, setShowSignupModal] = useState(false)
   const [showProfileSetup, setShowProfileSetup] = useState(false)
-  const [signupUserData, setSignupUserData] = useState(null)
+  const [kakaoUserData, setKakaoUserData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleLogin = () => {
-    // Login logic to be implemented
-    console.log("Login attempt:", { nickname, password })
-  }
+  const handleKakaoLogin = async () => {
+    setIsLoading(true)
 
-  const handleKakaoLogin = () => {
-    // Kakao OAuth2.0 login logic to be implemented
-    console.log("Kakao login")
-  }
+    try {
+      // 카카오 OAuth2.0 로그인 로직
+      // 실제 구현 시에는 카카오 SDK를 사용하거나 서버 API를 호출
+      console.log("카카오 로그인 시작...")
 
-  const handleNaverLogin = () => {
-    // Naver OAuth2.0 login logic to be implemented
-    console.log("Naver login")
-  }
+      // 시뮬레이션을 위한 딜레이
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
-  const handleSignup = () => {
-    setShowSignupModal(true)
-  }
+      // 카카오 로그인 성공 시 받아올 사용자 데이터 (예시)
+      const userData = {
+        id: "kakao_123456789",
+        nickname: "카카오사용자",
+        email: "user@kakao.com",
+        profileImage: null,
+        provider: "kakao",
+      }
 
-  const handleSignupNext = (userData: any) => {
-    setSignupUserData(userData)
-    setShowSignupModal(false)
-    setShowProfileSetup(true)
+      setKakaoUserData(userData)
+      setShowProfileSetup(true)
+    } catch (error) {
+      console.error("카카오 로그인 실패:", error)
+      // 에러 처리 로직
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleProfileComplete = (profileData: any) => {
-    console.log("Registration completed:", profileData)
+    console.log("프로필 설정 완료:", profileData)
     setShowProfileSetup(false)
     onClose()
-    // Here you would typically send the data to your backend
+    // 여기서 최종 사용자 데이터를 서버에 저장하거나 상태 관리
   }
 
-  const handleCloseSignup = () => {
-    setShowSignupModal(false)
+  const handleCloseProfileSetup = () => {
     setShowProfileSetup(false)
-    setSignupUserData(null)
+    setKakaoUserData(null)
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto transform transition-all duration-300 ease-out">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-800">로그인</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="hover:bg-gray-100 transition-colors duration-200 rounded-full"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
+    <>
+      <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-auto transform transition-all duration-300 ease-out overflow-hidden">
+          {/* Header */}
+          <div className="relative bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 p-8 text-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="absolute top-4 right-4 hover:bg-white/20 transition-colors duration-200 rounded-full text-white"
+            >
+              <X className="h-5 w-5" />
+            </Button>
 
-        {/* Content */}
-        <div className="p-6 space-y-6">
-          {/* Form Fields */}
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2">
-                닉네임
-              </label>
-              <Input
-                id="nickname"
-                type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                placeholder="닉네임을 입력하세요"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                비밀번호
-              </label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="비밀번호를 입력하세요"
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-100 rounded-full"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </Button>
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <Music className="h-8 w-8 text-white" />
               </div>
             </div>
+
+            <h2 className="text-2xl font-bold text-white mb-2">Song For You</h2>
+            <p className="text-white/90 text-sm">음악과 함께하는 특별한 여행을 시작해보세요</p>
           </div>
 
-          {/* Login Button */}
-          <Button
-            onClick={handleLogin}
-            className="w-full bg-gray-200 py-3 rounded-lg font-medium transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg text-black hover:bg-gray-100 rounded-full"
-          >
-            로그인
-          </Button>
-
-          {/* Divider */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+          {/* Content */}
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">간편하게 시작하기</h3>
+              <p className="text-gray-600 text-sm">
+                카카오 계정으로 3초만에 가입하고
+                <br />
+                AI 음악 추천을 받아보세요
+              </p>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">또는</span>
-            </div>
-          </div>
 
-          {/* Social Login Buttons */}
-          <div className="space-y-3">
+            {/* 카카오 로그인 버튼 */}
             <Button
               onClick={handleKakaoLogin}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black py-3 rounded-lg font-medium transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg flex items-center justify-center gap-3"
+              disabled={isLoading}
+              className="w-full bg-[#FEE500] hover:bg-[#FFEB3B] text-[#3C1E1E] py-4 rounded-2xl font-semibold text-base transition-all duration-300 ease-in-out hover:scale-[1.02] transform hover:shadow-lg flex items-center justify-center gap-3 border-0"
             >
-              <div className="w-5 h-5 bg-black rounded-full flex items-center justify-center">
-                <span className="text-yellow-400 text-xs font-bold">K</span>
-              </div>
-              카카오로 로그인
+              {isLoading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-[#3C1E1E]/30 border-t-[#3C1E1E] rounded-full animate-spin" />
+                  로그인 중...
+                </>
+              ) : (
+                <>
+                  <div className="w-6 h-6 bg-[#3C1E1E] rounded-md flex items-center justify-center">
+                    <span className="text-[#FEE500] text-sm font-bold">K</span>
+                  </div>
+                  카카오로 시작하기
+                </>
+              )}
             </Button>
 
-            <Button
-              onClick={handleNaverLogin}
-              className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition-all duration-300 ease-in-out hover:scale-105 transform hover:shadow-lg flex items-center justify-center gap-3"
-            >
-              <div className="w-5 h-5 bg-white rounded flex items-center justify-center">
-                <span className="text-green-500 text-xs font-bold">N</span>
-              </div>
-              네이버로 로그인
-            </Button>
-          </div>
+            {/* 부가 정보 */}
+            <div className="mt-6 text-center">
+              <p className="text-xs text-gray-500 leading-relaxed">
+                로그인 시 <span className="text-gray-700 font-medium">서비스 이용약관</span> 및{" "}
+                <span className="text-gray-700 font-medium">개인정보처리방침</span>에<br />
+                동의한 것으로 간주됩니다
+              </p>
+            </div>
 
-          {/* Signup Link */}
-          <div className="text-center pt-4 border-t border-gray-100">
-            <p className="text-gray-600 text-sm">
-              아직 계정이 없으신가요?{" "}
-              <Button
-                variant="link"
-                onClick={handleSignup}
-                className="text-purple-600 hover:text-purple-700 font-medium p-0 h-auto transition-colors duration-200"
-              >
-                회원가입
-              </Button>
-            </p>
+            {/* 특징 포인트 */}
+            <div className="mt-8 space-y-3">
+              <div className="flex items-center gap-3 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                <span>AI 기반 개인 맞춤 음악 추천</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                <span>다른 사용자와 음악 취향 공유</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                <span>실시간 음악 채팅 서비스</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {showSignupModal && <SignupModal onClose={handleCloseSignup} onNext={handleSignupNext} />}
-      {showProfileSetup && signupUserData && (
-        <ProfileSetupModal onClose={handleCloseSignup} onComplete={handleProfileComplete} userData={signupUserData} />
+
+      {/* 프로필 설정 모달 */}
+      {showProfileSetup && kakaoUserData && (
+        <ProfileSetupModal
+          onClose={handleCloseProfileSetup}
+          onComplete={handleProfileComplete}
+          userData={kakaoUserData}
+        />
       )}
-    </div>
+    </>
   )
 }
