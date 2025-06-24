@@ -206,7 +206,7 @@ export function MyPage({ onBack }: MyPageProps) {
             className="bg-white hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all duration-300 ease-in-out hover:scale-105 transform px-8 py-3"
           >
             <LogOut className="h-4 w-4 mr-2" />
-            로그 아웃
+            Log Out
           </Button>
         </div>
       </div>
