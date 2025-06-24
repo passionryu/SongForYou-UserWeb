@@ -2,6 +2,8 @@
 ### 서비스 소개    
 Song For You는 AI 음악 매니저와의 대화를 통해 사용자의 취향과 감정에 맞는 음악을 추천해주는 서비스입니다. Spotify API와 GPT API를 활용하여 개인화된 음악 추천과 AI 평가 및 공유 기능을 제공합니다.   
 
+## Deploy 
+Vercel : https://vercel.com/passionryus-projects/v0-song-for-you/EYCQ8f8u4CEEqziA7E3rX58EqKz5
 ## 구현 방법   
 
 ## 깃모지
